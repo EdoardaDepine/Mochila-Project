@@ -6,4 +6,6 @@ tabela.addEventListener("dblclick", function (event) {
   setTimeout(function () {
     event.target.remove();
   }, 500);
+
+  localStorage.removeItem(event.target.remove());
 });
