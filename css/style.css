@@ -130,3 +130,7 @@ html {
     font-weight: 400;
 }
 
+.transicaoExclusao{
+	opacity: 0;
+	transition: 0.5s;
+}
