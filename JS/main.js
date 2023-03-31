@@ -1,7 +1,11 @@
 const botaoAdicionar = document.querySelector(".cadastrar");
 const form = document.querySelector("#novoItem");
 const lista = document.querySelector("#lista");
-const itens = [];
+const itens = JSON.parse(localStorage.getItem("itens")) || [];
+
+itens.forEach((element) => {
+  console.log(element);
+});
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -29,6 +33,8 @@ function criaElemento(nome, quantidade) {
 
   lista.appendChild(novoItem);
 
+  // ............................................
+
   const itemAtual = {
     nome: nome,
     quantidade: quantidade,
@@ -36,5 +42,5 @@ function criaElemento(nome, quantidade) {
 
   itens.push(itemAtual);
 
-  localStorage.setItem("item", JSON.stringify(itens));
+  localStorage.setItem("itens", JSON.stringify(itens));
 }
