@@ -1,41 +1,52 @@
 const form = document.getElementById("novoItem");
 const lista = document.getElementById("lista");
-const itens = JSON.parse(localStorage.getItem("itens")) || [];
 
-itens.forEach((elemento) => {
-  criaElemento(elemento);
-});
+window.onload = createItemByLocalStorage();
 
 form.addEventListener("submit", (evento) => {
-  evento.preventDefault();
+    evento.preventDefault();
 
-  const nome = evento.target.elements["nome"];
-  const quantidade = evento.target.elements["quantidade"];
+    const nome = evento.target.elements["nome"];
+    const quantidade = evento.target.elements["quantidade"];
 
-  const itemAtual = {
-    nome: nome.value,
-    quantidade: quantidade.value,
-  };
+    const item = {
+        nome: nome.value,
+        quantidade: quantidade.value,
+    };
+    criaElemento(item);
 
-  criaElemento(itemAtual);
+    setItemLocalStorage(item)
 
-  itens.push(itemAtual);
-
-  localStorage.setItem("itens", JSON.stringify(itens));
-
-  nome.value = "";
-  quantidade.value = "";
+    nome.value = "";
+    quantidade.value = "";
 });
 
 function criaElemento(item) {
-  const novoItem = document.createElement("li");
-  novoItem.classList.add("item");
+    const novoItem = document.createElement("li");
+    novoItem.classList.add("item");
 
-  const numeroItem = document.createElement("strong");
-  numeroItem.innerHTML = item.quantidade;
-  novoItem.appendChild(numeroItem);
+    const numeroItem = document.createElement("strong");
+    numeroItem.innerHTML = item.quantidade;
+    novoItem.appendChild(numeroItem);
 
-  novoItem.innerHTML += item.nome;
+    novoItem.innerHTML += item.nome;
 
-  lista.appendChild(novoItem);
+    lista.appendChild(novoItem);
+}
+
+function getItemLocalStorage() {
+    return JSON.parse(localStorage.getItem("item")) || [];
+}
+
+function setItemLocalStorage(item) {
+    if (localStorage.hasOwnProperty("item")) {
+        return localStorage.setItem("item", JSON.stringify([...getItemLocalStorage(), item]))
+    } else {
+        localStorage.setItem("item", JSON.stringify([item]))
+    }
+}
+
+function createItemByLocalStorage() {
+    const itensLocalStorae = getItemLocalStorage();
+    itensLocalStorae.map((item) => criaElemento(item))
 }
